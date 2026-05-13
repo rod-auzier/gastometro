@@ -1,12 +1,13 @@
-import { GoogleGenerativeAI } from '@google/generative-ai'
-
-const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_KEY)
-
 export async function analisarExtrato(conteudo) {
-  const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
-
-  const prompt = `
-Você é um assistente financeiro. Analise o extrato bancário abaixo e retorne APENAS um JSON válido, sem texto adicional, sem markdown, sem explicações.
+  const response = await fetch(
+    `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${import.meta.env.VITE_GEMINI_KEY}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{
+          parts: [{
+            text: `Você é um assistente financeiro. Analise o extrato bancário abaixo e retorne APENAS um JSON válido, sem texto adicional, sem markdown, sem explicações.
 
 O JSON deve ter exatamente essa estrutura:
 {
@@ -32,11 +33,21 @@ O JSON deve ter exatamente essa estrutura:
 }
 
 Extrato:
-${conteudo}
-`
+${conteudo}`
+          }]
+        }]
+      })
+    }
+  )
 
-  const result = await model.generateContent(prompt)
-  const text = result.response.text()
+  const data = await response.json()
+
+  if (!response.ok) {
+    console.error('Erro Gemini:', data)
+    throw new Error(data.error?.message || 'Erro na API')
+  }
+
+  const text = data.candidates[0].content.parts[0].text
   const clean = text.replace(/```json|```/g, '').trim()
   return JSON.parse(clean)
 }
