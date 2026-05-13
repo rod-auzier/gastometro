@@ -15,7 +15,18 @@ REGRAS IMPORTANTES:
 - Ignore rendimentos de conta (são automáticos, não são gastos nem entradas reais)
 - Considere como ENTRADAS apenas: salários, pagamentos recebidos de terceiros, Pix recebidos de outras pessoas
 - Considere como GASTOS apenas: compras, pagamentos de contas, Pix enviados para terceiros e serviços
-- Categorize os gastos com inteligência: iFood/restaurantes = Alimentação, posto/transporte = Transporte, farmácia/médico/plano = Saúde, escola/curso = Educação, streaming/lazer = Lazer, contas fixas (luz, água, internet, telefone, condomínio) = Moradia
+
+REGRAS DE CATEGORIZAÇÃO (seja inteligente e use o contexto do nome):
+- Alimentação: iFood, restaurantes, lanchonetes, mercados, supermercados, atacadistas, padarias, bebidas, delivery
+- Transporte: posto de gasolina, combustível, Uber, 99, táxi, estacionamento, pedágio
+- Saúde: farmácia, médico, dentista, hospital, clínica, plano de saúde, Unimed, odontológico
+- Educação: escola, faculdade, curso, universidade, livro, material escolar
+- Lazer: streaming, cinema, teatro, show, jogo, viagem, hotel
+- Moradia: luz, água, energia, internet, telefone, condomínio, aluguel, IPTU, gás
+- Vestuário: roupa, calçado, loja de roupas, moda
+- Impostos/Taxas: Polícia Federal, prefeitura, município, DETRAN, governo, tributo, taxa
+- Serviços Digitais: PagBrasil, AIBR, instituição de pagamento, fintech
+- Outros: apenas o que realmente não se encaixar em nenhuma categoria acima
 
 O JSON deve ter exatamente essa estrutura:
 {
@@ -28,10 +39,13 @@ O JSON deve ter exatamente essa estrutura:
   "categorias": [
     { "nome": "Alimentação", "valor": 0, "percentual": 0 },
     { "nome": "Transporte", "valor": 0, "percentual": 0 },
-    { "nome": "Lazer", "valor": 0, "percentual": 0 },
     { "nome": "Saúde", "valor": 0, "percentual": 0 },
     { "nome": "Educação", "valor": 0, "percentual": 0 },
+    { "nome": "Lazer", "valor": 0, "percentual": 0 },
     { "nome": "Moradia", "valor": 0, "percentual": 0 },
+    { "nome": "Vestuário", "valor": 0, "percentual": 0 },
+    { "nome": "Impostos/Taxas", "valor": 0, "percentual": 0 },
+    { "nome": "Serviços Digitais", "valor": 0, "percentual": 0 },
     { "nome": "Outros", "valor": 0, "percentual": 0 }
   ],
   "conselhos": [
