@@ -1,16 +1,40 @@
-# React + Vite
+# Gastômetro 📊
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Analisador de extratos bancários com IA. Envie seu extrato em CSV ou PDF e receba uma análise completa dos seus gastos, categorização automática e conselhos financeiros personalizados.
 
-Currently, two official plugins are available:
+## 🚀 Funcionalidades
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Upload de extratos em CSV ou PDF (até 2 arquivos)
+- Categorização automática dos gastos por IA
+- Resumo financeiro com total gasto, entradas e saldo
+- Gráfico de gastos por categoria
+- Conselhos financeiros personalizados
+- 100% privado — nenhum dado é salvo
 
-## React Compiler
+## 🛠️ Tecnologias
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React + Vite
+- Tailwind CSS
+- Google Gemini AI
+- Vercel (deploy)
 
-## Expanding the ESLint configuration
+## ⚙️ Como rodar localmente
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+# Clone o repositório
+git clone https://github.com/rod-auzier/gastometro.git
+cd gastometro
+
+# Instale as dependências
+npm install
+
+# Crie o arquivo .env e adicione sua chave
+VITE_GEMINI_KEY=sua_chave_aqui
+
+# Rode o projeto
+npm run dev
+```
+
+## 📌 Aviso
+
+A inteligência artificial pode cometer erros. Sempre confira os valores com seus dados oficiais.
