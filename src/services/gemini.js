@@ -7,7 +7,15 @@ export async function analisarExtrato(conteudo) {
       body: JSON.stringify({
         contents: [{
           parts: [{
-            text: `Você é um assistente financeiro. Analise o extrato bancário abaixo e retorne APENAS um JSON válido, sem texto adicional, sem markdown, sem explicações.
+            text: `Você é um assistente financeiro especialista em análise de extratos bancários brasileiros. Analise o extrato abaixo e retorne APENAS um JSON válido, sem texto adicional, sem markdown, sem explicações.
+
+REGRAS IMPORTANTES:
+- Ignore completamente movimentações de cofrinho ("Dinheiro guardado" e "Dinheiro resgatado")
+- Ignore transferências entre contas próprias (quando o nome do destinatário/remetente for igual ou muito similar ao do titular)
+- Ignore rendimentos de conta (são automáticos, não são gastos nem entradas reais)
+- Considere como ENTRADAS apenas: salários, pagamentos recebidos de terceiros, Pix recebidos de outras pessoas
+- Considere como GASTOS apenas: compras, pagamentos de contas, Pix enviados para terceiros e serviços
+- Categorize os gastos com inteligência: iFood/restaurantes = Alimentação, posto/transporte = Transporte, farmácia/médico/plano = Saúde, escola/curso = Educação, streaming/lazer = Lazer, contas fixas (luz, água, internet, telefone, condomínio) = Moradia
 
 O JSON deve ter exatamente essa estrutura:
 {
@@ -23,6 +31,7 @@ O JSON deve ter exatamente essa estrutura:
     { "nome": "Lazer", "valor": 0, "percentual": 0 },
     { "nome": "Saúde", "valor": 0, "percentual": 0 },
     { "nome": "Educação", "valor": 0, "percentual": 0 },
+    { "nome": "Moradia", "valor": 0, "percentual": 0 },
     { "nome": "Outros", "valor": 0, "percentual": 0 }
   ],
   "conselhos": [
