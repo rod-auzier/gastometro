@@ -53,9 +53,7 @@ function App() {
             Gast<span className="text-[#F97316] font-bold">ômetro</span>
           </span>
         </div>
-        <button className="bg-[#F97316] text-white px-4 py-2 rounded-md text-sm font-medium">
-          Entrar
-        </button>
+        
       </nav>
 
       {/* Hero */}
