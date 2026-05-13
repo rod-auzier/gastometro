@@ -2,12 +2,14 @@ import { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { analisarExtrato } from './services/gemini'
 import { lerArquivo } from './services/lerArquivo'
+import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 
 function App() {
   const [arquivos, setArquivos] = useState([])
   const [loading, setLoading] = useState(false)
   const [resultado, setResultado] = useState(null)
   const [erro, setErro] = useState(null)
+  const [categoriaAberta, setCategoriaAberta] = useState(null)
 
   const onDrop = useCallback((arquivosAceitos) => {
     setArquivos(arquivosAceitos.slice(0, 2))
@@ -167,25 +169,84 @@ function App() {
             </div>
 
             {/* Categorias */}
-            <div className="bg-white rounded-xl border border-[#E2E8F0] p-6 shadow-sm">
-              <h2 className="text-[#1E3A5F] font-bold text-lg mb-4">🏷️ Gastos por Categoria</h2>
-              <div className="space-y-3">
-                {resultado.categorias.filter(c => c.valor > 0).map((cat) => (
-                  <div key={cat.nome}>
-                    <div className="flex justify-between text-sm mb-1">
-                      <span className="text-[#1E3A5F] font-medium">{cat.nome}</span>
-                      <span className="text-[#94A3B8]">R$ {cat.valor.toFixed(2)} ({cat.percentual}%)</span>
-                    </div>
-                    <div className="w-full bg-[#F1F5F9] rounded-full h-2">
-                      <div
-                        className="bg-[#F97316] h-2 rounded-full"
-                        style={{ width: `${cat.percentual}%` }}
-                      ></div>
-                    </div>
-                  </div>
-                ))}
+<div className="bg-white rounded-xl border border-[#E2E8F0] p-6 shadow-sm">
+  <h2 className="text-[#1E3A5F] font-bold text-lg mb-4">🏷️ Gastos por Categoria</h2>
+  
+  {/* Gráfico de Pizza */}
+  <ResponsiveContainer width="100%" height={320} style={{ pointerEvents: 'none' }}>
+  <PieChart>
+    <Pie
+  data={resultado.categorias.filter(c => c.valor > 0)}
+  dataKey="valor"
+  nameKey="nome"
+  cx="50%"
+  cy="50%"
+  outerRadius={110}
+  isAnimationActive={false}
+>
+      {resultado.categorias.filter(c => c.valor > 0).map((_, index) => (
+        <Cell
+  key={index}
+  fill={[
+    '#F97316', '#1E3A5F', '#22C55E', '#EF4444',
+    '#8B5CF6', '#06B6D4', '#F59E0B', '#EC4899',
+    '#10B981', '#94A3B8'
+  ][index % 10]}
+  stroke="none"
+/>
+      ))}
+    </Pie>
+    <Tooltip formatter={(value) => `R$ ${value.toFixed(2)}`} />
+    <Legend
+      layout="horizontal"
+      verticalAlign="bottom"
+      align="center"
+      wrapperStyle={{ paddingTop: '20px', fontSize: '12px', lineHeight: '24px' }}
+    />
+  </PieChart>
+</ResponsiveContainer>
+
+  {/* Barras */}
+<div className="space-y-3 mt-4">
+  {resultado.categorias.filter(c => c.valor > 0).map((cat) => (
+    <div key={cat.nome}>
+      <div className="flex justify-between text-sm mb-1">
+        <span className="text-[#1E3A5F] font-medium">{cat.nome}</span>
+        <div className="flex items-center gap-3">
+          <span className="text-[#94A3B8]">R$ {cat.valor.toFixed(2)} ({cat.percentual}%)</span>
+          <button
+            onClick={() => setCategoriaAberta(categoriaAberta === cat.nome ? null : cat.nome)}
+            className="text-[#F97316] text-xs font-medium hover:underline"
+          >
+            {categoriaAberta === cat.nome ? 'Fechar' : 'Ver mais'}
+          </button>
+        </div>
+      </div>
+      <div className="w-full bg-[#F1F5F9] rounded-full h-2">
+        <div
+          className="bg-[#F97316] h-2 rounded-full"
+          style={{ width: `${cat.percentual}%` }}
+        ></div>
+      </div>
+
+      {/* Transações expandidas */}
+      {categoriaAberta === cat.nome && cat.transacoes && (
+        <div className="mt-2 bg-[#F8FAFC] rounded-lg border border-[#E9EEF5] overflow-hidden">
+          {cat.transacoes.map((t, i) => (
+            <div key={i} className="flex justify-between items-center px-4 py-2 border-b border-[#E9EEF5] last:border-0">
+              <div>
+                <p className="text-[#1E3A5F] text-sm font-medium">{t.descricao}</p>
+                <p className="text-[#94A3B8] text-xs">{t.data}</p>
               </div>
+              <span className="text-red-500 text-sm font-medium">R$ {t.valor.toFixed(2)}</span>
             </div>
+          ))}
+        </div>
+      )}
+    </div>
+  ))}
+</div>
+</div>
 
             {/* Conselhos */}
             <div className="bg-white rounded-xl border border-[#E2E8F0] p-6 shadow-sm">

@@ -16,7 +16,7 @@ REGRAS IMPORTANTES:
 - Considere como ENTRADAS apenas: salários, pagamentos recebidos de terceiros, Pix recebidos de outras pessoas
 - Considere como GASTOS apenas: compras, pagamentos de contas, Pix enviados para terceiros e serviços
 
-REGRAS DE CATEGORIZAÇÃO (seja inteligente e use o contexto do nome):
+REGRAS DE CATEGORIZAÇÃO:
 - Alimentação: iFood, restaurantes, lanchonetes, mercados, supermercados, atacadistas, padarias, bebidas, delivery
 - Transporte: posto de gasolina, combustível, Uber, 99, táxi, estacionamento, pedágio
 - Saúde: farmácia, médico, dentista, hospital, clínica, plano de saúde, Unimed, odontológico
@@ -28,6 +28,14 @@ REGRAS DE CATEGORIZAÇÃO (seja inteligente e use o contexto do nome):
 - Serviços Digitais: PagBrasil, AIBR, instituição de pagamento, fintech
 - Outros: apenas o que realmente não se encaixar em nenhuma categoria acima
 
+REGRAS DOS CONSELHOS:
+- Gere exatamente 5 conselhos financeiros altamente específicos e personalizados
+- Cada conselho DEVE mencionar o nome real da categoria, o valor exato gasto e comparar com o total
+- Cite estabelecimentos ou transações específicas quando relevante (ex: "Você gastou R$ 163,89 no Assaí e R$ 96,48 no Lider — considere...")
+- Sugira metas numéricas concretas (ex: "tente reduzir Alimentação de R$ 1.129 para R$ 900 no próximo mês")
+- Aponte padrões de comportamento identificados no extrato (ex: "Você faz compras de mercado 3x por semana, consolidar em 1x pode economizar em compras por impulso")
+- Misture alertas com sugestões positivas e motivadoras
+
 O JSON deve ter exatamente essa estrutura:
 {
   "resumo": {
@@ -37,21 +45,21 @@ O JSON deve ter exatamente essa estrutura:
     "periodo": "mês/ano ou intervalo identificado"
   },
   "categorias": [
-    { "nome": "Alimentação", "valor": 0, "percentual": 0 },
-    { "nome": "Transporte", "valor": 0, "percentual": 0 },
-    { "nome": "Saúde", "valor": 0, "percentual": 0 },
-    { "nome": "Educação", "valor": 0, "percentual": 0 },
-    { "nome": "Lazer", "valor": 0, "percentual": 0 },
-    { "nome": "Moradia", "valor": 0, "percentual": 0 },
-    { "nome": "Vestuário", "valor": 0, "percentual": 0 },
-    { "nome": "Impostos/Taxas", "valor": 0, "percentual": 0 },
-    { "nome": "Serviços Digitais", "valor": 0, "percentual": 0 },
-    { "nome": "Outros", "valor": 0, "percentual": 0 }
+    {
+      "nome": "Alimentação",
+      "valor": 0,
+      "percentual": 0,
+      "transacoes": [
+        { "descricao": "Nome do estabelecimento", "valor": 0, "data": "dd/mm/aaaa" }
+      ]
+    }
   ],
   "conselhos": [
     "conselho 1",
     "conselho 2",
-    "conselho 3"
+    "conselho 3",
+    "conselho 4",
+    "conselho 5"
   ]
 }
 
